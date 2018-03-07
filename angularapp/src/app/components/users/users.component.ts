@@ -21,30 +21,20 @@ export class UsersComponent implements OnInit {
   currentStyles = {}
   showUserForm: boolean = false;
   @ViewChild('userform')form: any
+  data: any;
 
   constructor(private dataService: DataService) {}
 
   ngOnInit() {
-    this.users = this.dataService.getUsers();
-    this.loaded = true;
+    this.dataService.getData().subscribe(data =>{
+      console.log(data);
+    });
 
-    // this.addUser({
-    //   firstName: 'David',
-    //   lastName: 'Jackson'
-    // });
+    this.dataService.getUsers().subscribe( users =>{
+      this.users = users;
+      this.loaded = true;
+    });
   }
-
-  // addUser() {
-  //   this.user.isActive = true;
-  //   this.user.registered = new Date();
-  //   this.users.unshift(this.user);
-  //
-  //   this.user = {
-  //     firstName: '',
-  //     lastName: '',
-  //     email:''
-  //   }
-  // }
 
   onSubmit({value, valid}: {value: User, valid: boolean}) {
     if(!valid){
